@@ -29,7 +29,10 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        
          try{
+            BDD.getInstancia().conexion();
+           
             File f = new File("C:\\MEIA");
             File u = new File("C:\\MEIA\\usuario.txt");
             File a = new File("C:\\MEIA\\desc_usuario.txt");

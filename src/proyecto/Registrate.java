@@ -369,7 +369,7 @@ public class Registrate extends javax.swing.JFrame {
                      JOptionPane.showMessageDialog(rootPane, "No se pueden dejar campos vacios", "Error Message", JOptionPane.ERROR_MESSAGE);
                 }
                   
-            }catch(HeadlessException | IOException e){
+            }catch(Exception e){
 
             }
             // }else{JOptionPane.showMessageDialog(rootPane, "Contraseña de nivel bajo", "Error Message", JOptionPane.ERROR_MESSAGE);}
