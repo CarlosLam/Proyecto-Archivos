@@ -81,6 +81,11 @@ public class Usuario extends javax.swing.JFrame {
         });
 
         jButton4.setText("Bandeja de enviados");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Enviar correo a lista");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -186,7 +191,7 @@ public class Usuario extends javax.swing.JFrame {
                     .addComponent(jButton4)
                     .addComponent(jButton1)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,9 +208,9 @@ public class Usuario extends javax.swing.JFrame {
                 .addComponent(jButton3)
                 .addGap(18, 18, 18)
                 .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         usuario.getAccessibleContext().setAccessibleName("");
@@ -345,6 +350,13 @@ public class Usuario extends javax.swing.JFrame {
         this.setVisible(false);
         new CorreoDiferente(username).setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new BandejaSalida(username).setVisible(true);
+
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
