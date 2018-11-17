@@ -117,6 +117,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="correosMouseClicked"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -125,7 +128,7 @@
     </Container>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Emisor - Asunto - Mensaje"/>
+        <Property name="text" type="java.lang.String" value="Emisor - Fecha - Asunto - Mensaje - Adjunto"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="Regresar">

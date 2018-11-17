@@ -5,10 +5,13 @@
  */
 package proyecto;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 /**
  *
@@ -26,6 +29,7 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
         usr = user;
         model = new DefaultListModel();
         
+        
         correos.setModel(model);
         
         File co = new File("C:\\MEIA\\Correo.txt");
@@ -37,7 +41,8 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
             while((linea=brp.readLine())!= null){
                 String[] info = linea.split("\\|");
                 if (info[3].equals(usr)) {
-                    String nuevaLinea = info[2] + " - " + info[5] + " - " + info[6];
+                    //Emisor - Fecha - Asunto - Mensaje - Adjunto
+                    String nuevaLinea = info[2] + " - " + info[4] + " - " + info[5] + " - " + info[6] + " - " + info[7];
                     model.addElement(nuevaLinea);
                 }
             }
@@ -93,9 +98,14 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        correos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                correosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(correos);
 
-        jLabel1.setText("Emisor - Asunto - Mensaje");
+        jLabel1.setText("Emisor - Fecha - Asunto - Mensaje - Adjunto");
 
         Regresar.setText("Regresar");
         Regresar.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +155,13 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
         new Usuario(usr).setVisible(true);
     }//GEN-LAST:event_RegresarActionPerformed
 
+    private void correosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_correosMouseClicked
+        // TODO add your handling code here:
+        String datos = correos.getSelectedValue();
+        this.setVisible(false);
+        new AbrirCorreo(usr, datos).setVisible(true);
+    }//GEN-LAST:event_correosMouseClicked
+    
     /**
      * @param args the command line arguments
      */

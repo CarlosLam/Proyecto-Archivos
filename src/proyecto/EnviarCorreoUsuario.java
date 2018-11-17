@@ -253,7 +253,7 @@ public class EnviarCorreoUsuario extends javax.swing.JFrame {
             try {
                 Files.copy(sourcePath, destPath.resolve(sourcePath.getFileName()));
                 String a = ficheroImagen.getName();
-                String nuevaDireccion = "C:\\MEIA\\" + a;
+                String nuevaDireccion = "C:\\MEIA\\Adjuntos\\" + a;
                 rutaArchivo = nuevaDireccion;
             } catch (IOException ex) {
                 Logger.getLogger(Registrate.class.getName()).log(Level.SEVERE, null, ex);
