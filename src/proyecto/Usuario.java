@@ -259,6 +259,7 @@ public class Usuario extends javax.swing.JFrame {
                 }
             }
             brp.close();
+            
             int contador = 1;
             TextOut = new FileWriter(lu, false);
             for (int i = 0; i < datos.size(); i++) {
@@ -271,16 +272,93 @@ public class Usuario extends javax.swing.JFrame {
             frp = new FileReader(dlu);
             brp = new BufferedReader(frp);
             linea = brp.readLine();
-            String[]datoS = linea.split("|");
+            String[]datoS = linea.split("\\|");
             String nuevaLinea = datoS[0] + "|" + datoS[1] + "|" + contador + "|" + contador + "|0";
             
             TextOut = new FileWriter(dlu, false);
             TextOut.write(nuevaLinea);
             TextOut.close();
             
+            //Aqui va la reoganizacion
+            File co = new File("C:\\MEIA\\Correo.txt");
+            frp = new FileReader(co);
+            brp = new BufferedReader(frp);
+            datos = new ArrayList<String>();
+            List nuevosCorreos = new ArrayList<String>();
+            while((linea=brp.readLine())!= null){
+                datos.add(linea);
+            }
+            brp.close();
             
-            //MAX AQUI VA TU PARTE
-            String DESDEAQUIVATUCODIGOMAX = "plz";
+            recorrido(datos.get(0).toString(),datos,nuevosCorreos);
+            
+            datos = new ArrayList<String>();
+            for (int i = 0; i < nuevosCorreos.size(); i++) {
+                String primeraLinea = (String) nuevosCorreos.get(0);
+                if (i == 0) {
+                    datos.add("0|0|" + primeraLinea);
+                }
+                else{
+                    primeraLinea = (String) datos.get(0);
+                    String Izq = primeraLinea.substring(0,primeraLinea.indexOf("|"));
+                    String Der = primeraLinea.substring(primeraLinea.indexOf("|") + 1);
+                    String Info = Der.substring(Der.indexOf("|") + 1);
+                    String info = nuevosCorreos.get(i).toString();
+                    if(datos.size() == 1){
+                        
+                        
+                        if (info.compareTo(Info) >= 1) {
+                            datos.set(0, "0|2|" + Info);
+                        }else{
+                            datos.set(0, "2|0|" + Info);
+                        }
+                        datos.add("0|0|" + info);
+                    }
+                    else{
+                        boolean salir = false;
+                        int posicion = 0;
+
+                        while(salir == false){
+                            if(info.compareTo(Info) >= 1){
+                                Der = Der.substring(0, Der.indexOf("|"));
+                                int de = Integer.valueOf(Der);
+                                if (de == 0) {
+                                     datos.add("0|0|" + info);
+                                     datos.set(posicion, Izq + "|" + datos.size() + "|" + Info);
+                                     salir = true;
+                                }else{
+                                    de--;
+                                    posicion = de;//VALIDAR
+                                    primeraLinea = (String) datos.get(posicion);
+                                    Izq = primeraLinea.substring(0,primeraLinea.indexOf("|"));
+                                    Der = primeraLinea.substring(primeraLinea.indexOf("|") + 1);
+                                    Info = Der.substring(Der.indexOf("|") + 1);
+                                }
+                            }else{
+                                int iz = Integer.valueOf(Izq);
+                                if (iz == 0) {
+                                     datos.add("0|0|" + info);
+                                     datos.set(posicion, datos.size() + "|" + Der.substring(0,Der.indexOf("|")) + "|" + Info);
+                                     salir = true;
+                                }else{
+                                    iz--;
+                                    posicion = iz;//Hay que validar que si sea la posicion que corresponde
+                                    primeraLinea = (String) datos.get(posicion);
+                                    Izq = primeraLinea.substring(0,primeraLinea.indexOf("|"));
+                                    Der = primeraLinea.substring(primeraLinea.indexOf("|") + 1);
+                                    Info = Der.substring(Der.indexOf("|") + 1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            TextOut = new FileWriter(co, false);
+            for (int i = 0; i < datos.size(); i++) {
+                TextOut.write(datos.get(i) + "\r\n");
+            }
+            TextOut.close();
             
         }catch(Exception e){
             
@@ -294,6 +372,20 @@ public class Usuario extends javax.swing.JFrame {
         l.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void recorrido(String linea, List datos, List nuevos){
+        String der = linea.substring(linea.indexOf("|") + 1);
+        String info = der.substring(der.indexOf("|") + 1);
+        nuevos.add(info);
+        
+        String[] Info = linea.split("\\|");
+        if (!Info[0].equals("0")) {
+            recorrido(datos.get(Integer.valueOf(Info[0]) - 1).toString(), datos, nuevos);
+        }
+        if (!Info[1].equals("0")) {
+            recorrido(datos.get(Integer.valueOf(Info[1]) -1).toString(),datos,nuevos);
+        }
+    }
+    
     private void administrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_administrarActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);

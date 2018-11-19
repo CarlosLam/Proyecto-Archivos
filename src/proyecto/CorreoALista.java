@@ -318,12 +318,12 @@ public class CorreoALista extends javax.swing.JFrame {
 
             String der = nueva.substring(nueva.indexOf("|") + 1);
             String info = der.substring(der.indexOf("|") + 1);
-            if (datos.size() == 1) {
-                
-                if (info.compareTo(Info) > 1) {
-                    datos.set(0, "2|0|" + Info);
-                }else{
+           
+            if (datos.size() == 1) {    
+                if (info.compareTo(Info) >= 1) {
                     datos.set(0, "0|2|" + Info);
+                }else{
+                    datos.set(0, "2|0|" + Info);
                 }
                 datos.add(nueva);
             }else{

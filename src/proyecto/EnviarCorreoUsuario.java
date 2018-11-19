@@ -19,10 +19,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -308,12 +306,12 @@ public class EnviarCorreoUsuario extends javax.swing.JFrame {
 
             String der = nueva.substring(nueva.indexOf("|") + 1);
             String info = der.substring(der.indexOf("|") + 1);
+            
             if (datos.size() == 1) {
-                
-                if (info.compareTo(Info) > 1) {
-                    datos.set(0, "2|0|" + Info);
-                }else{
+                if (info.compareTo(Info) >= 1) {
                     datos.set(0, "0|2|" + Info);
+                }else{
+                    datos.set(0, "2|0|" + Info);
                 }
                 datos.add(nueva);
             }else{

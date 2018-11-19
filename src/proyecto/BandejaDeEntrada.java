@@ -205,7 +205,7 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
                     String[] op = linea.split("\\|");
                     if (op[4].equals(datosCo[1])) { //Cuando las fechas son iguales
                        
-                        if (op[0].equals("0") || op[1].equals("0")) {
+                        if (!op[0].equals("0") || !op[1].equals("0")) {
                             if (!op[0].equals("0")) {
                                 hijoIzq = true;
                                 posicionIzq = Integer.valueOf(op[0]);
@@ -215,9 +215,9 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
                                 posicionDer = Integer.valueOf(op[1]);
                             }
                         }
-                        String nuevaLinea = linea.substring(0, linea.lastIndexOf("|")) + "0";
+                        String nuevaLinea = linea.substring(0, linea.lastIndexOf("|")) + "|0";
                         datos.add(nuevaLinea);
-                        posicion = datos.size() + 1;
+                        posicion = datos.size();
                     }
                     else{
                         datos.add(linea);    
@@ -226,33 +226,7 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
                 brp.close();
                 
                 if (posicion == 1) {
-                    if (hijoDer == false && hijoIzq == false) {//Cuando no tiene hijos
-                        //Entonces solo se debe de cambiar el status y eliminar la referencia del padre.
-                        
-                        if (datos.size() == 1) {
-                            //Se elimina todo lo conocido por el hombre jeje xdxd
-                        }
-                        else{
-                            for (int i = 0; i < datos.size(); i++) {
-                                String[] Dato = datos.get(i).toString().split("\\|");
-                                if (Dato[0].equals(String.valueOf(posicion)) || Dato[1].equals(String.valueOf(posicion))) {
-                                    if (Dato[0].equals(String.valueOf(posicion))) {
-                                        //Se trata del hijo izquierdo
-                                        String nuevaLinea = "0|" + Dato[1] + "|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
-                                        String primeraLinea = datos.get(0).toString();
-                                        datos.set(0, nuevaLinea);
-                                        datos.set(i, primeraLinea);
-                                    }else{
-                                        //Se trata del hijo derecho
-                                        String nuevaLinea = Dato[0] +"|0|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
-                                        String primeraLinea = datos.get(0).toString();
-                                        datos.set(0, nuevaLinea);
-                                        datos.set(i, primeraLinea);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    
                 }
                 else{
                     if (hijoDer == false && hijoIzq == false) {
@@ -274,18 +248,57 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
                     }
                     else if (hijoDer == true && hijoIzq == true) {
                         //Se hace todo un camote xdxd
-
+                        linea = "";
+                        linea = datos.get(posicion - 1).toString();//Linea que sera eliminada
+                        String [] DATO = linea.split("\\|"); //Datos de la linea que sera eliminada
+                        String HijoDer = datos.get((Integer.valueOf(DATO[1])) -1).toString();
+                        String DATOS[] = HijoDer.split("\\|"); //Datos del hijo derecho de linea que sera eliminada
+                        if (DATOS[0].equals("0")) {
+                            for (int i = 0; i < datos.size(); i++) {
+                                String[] Dato = datos.get(i).toString().split("\\|");
+                                if (Dato[0].equals(String.valueOf(posicion)) || Dato[1].equals(String.valueOf(posicion))) {
+                                    if (Dato[0].equals(String.valueOf(posicion))) {
+                                        //Se trata del hijo izquierdo
+                                        String nuevaLinea = Dato[0] +"|0|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" + Dato[5] + "|" + Dato[6] + "|" + Dato[7] + "|" + Dato[8];
+                                        datos.set(i, nuevaLinea);
+                                    }else{
+                                        //Se trata del hijo derecho
+                                        String nuevaLinea = Dato[0] +"|0|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
+                                        datos.set(i, nuevaLinea);
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            //Se debe buscar al más peuqeño
+                            boolean masPeque = false;
+                            while(masPeque == false){
+                                
+                            }
+                        }
                     } else{
                         //Se cuenta unicamente con un hijo. Solo se cambia la ref y se sigue con la life xdxd   
                         for (int i = 0; i < datos.size(); i++) {
                             String[] Dato = datos.get(i).toString().split("\\|");
-                            if (Dato[0].equals(String.valueOf(posicion)) || Dato[1].equals(String.valueOf(posicion))) {
+                             if (Dato[0].equals(String.valueOf(posicion)) || Dato[1].equals(String.valueOf(posicion))) {
                                 if (Dato[0].equals(String.valueOf(posicion))) {
                                     //Hijo izquierdo
-                                    String nuevaLinea = posicionIzq +"|" + Dato[1] + "|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
+                                    String a = "";
+                                    if (hijoDer) {
+                                       a = String.valueOf(posicionDer);
+                                    }else{
+                                        a = String.valueOf(posicionIzq);
+                                    }
+                                    String nuevaLinea = a +"|" + Dato[1] + "|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
                                     datos.set(i, nuevaLinea);
                                 }else{
-                                    String nuevaLinea = Dato[0] +"|" + posicionDer + "|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
+                                    String a = "";
+                                    if (hijoDer) {
+                                       a = String.valueOf(posicionDer);
+                                    }else{
+                                        a = String.valueOf(posicionIzq);
+                                    }
+                                    String nuevaLinea = Dato[0] +"|" + a + "|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
                                     datos.set(i, nuevaLinea);
                                 }
                             }
@@ -339,6 +352,11 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
     }
     
     private static void masIzquierdo(ArrayList datos, String datoCorreo){
+        
+        
+        
+        
+        
         
     }
     
