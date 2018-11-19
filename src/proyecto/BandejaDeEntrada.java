@@ -5,11 +5,11 @@
  */
 package proyecto;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -226,7 +226,44 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
                 brp.close();
                 
                 if (posicion == 1) {
-                    
+                    if (datos.size() == 1) {
+                        FileWriter flw = new FileWriter(co,false);
+                        flw.write("");
+                        flw.close();
+                    }else if ((hijoDer == true && hijoIzq == false) ||(hijoDer == false && hijoIzq == true)) {
+                        for (int i = 0; i < datos.size(); i++) {
+                               String[] Dato = datos.get(i).toString().split("\\|");
+                                if (Dato[0].equals(String.valueOf(posicion)) || Dato[1].equals(String.valueOf(posicion))) {
+                                   if (Dato[0].equals(String.valueOf(posicion))) {
+                                       //Hijo izquierdo
+                                       String a = "";
+                                       if (hijoDer) {
+                                          a = String.valueOf(posicionDer);
+                                       }else{
+                                           a = String.valueOf(posicionIzq);
+                                       }
+                                       String nuevaLinea = a +"|" + Dato[1] + "|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
+                                       datos.set(i, nuevaLinea);
+                                   }else{
+                                       String a = "";
+                                       if (hijoDer) {
+                                          a = String.valueOf(posicionDer);
+                                       }else{
+                                           a = String.valueOf(posicionIzq);
+                                       }
+                                       String nuevaLinea = Dato[0] +"|" + a + "|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
+                                       String primeraLinea = datos.get(0).toString();
+                                       datos.set(0, nuevaLinea);
+                                       datos.set(i, primeraLinea);
+                                   }
+                               }
+                           }
+                           FileWriter flw = new FileWriter(co,false);
+                           for (int i = 0; i < datos.size(); i++) {
+                               flw.write(datos.get(i) + "\r\n");
+                           }
+                           flw.close();   
+                    }
                 }
                 else{
                     if (hijoDer == false && hijoIzq == false) {
@@ -245,6 +282,11 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        FileWriter flw = new FileWriter(co,false);
+                        for (int i = 0; i < datos.size(); i++) {
+                            flw.write(datos.get(i) + "\r\n");
+                        }
+                        flw.close();
                     }
                     else if (hijoDer == true && hijoIzq == true) {
                         //Se hace todo un camote xdxd
@@ -273,7 +315,6 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
                             //Se debe buscar al más peuqeño
                             boolean masPeque = false;
                             while(masPeque == false){
-                                
                             }
                         }
                     } else{
@@ -303,6 +344,11 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        FileWriter flw = new FileWriter(co,false);
+                        for (int i = 0; i < datos.size(); i++) {
+                            flw.write(datos.get(i) + "\r\n");
+                        }
+                        flw.close();
                     }
                 }
                 
@@ -349,19 +395,6 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
                 new BandejaDeEntrada(usr).setVisible(true);
             }
         });
-    }
-    
-    private static void masIzquierdo(ArrayList datos, String datoCorreo){
-        
-        
-        
-        
-        
-        
-    }
-    
-    private static void masDerecho(ArrayList datos, String datoCorreo){
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

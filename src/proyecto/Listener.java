@@ -130,6 +130,10 @@ public class Listener extends Thread {
 
                                         linea = brp.readLine();
                                         brp.close();
+                                        Emisor = Emisor.substring(1, Emisor.length() - 1);
+                                        Receptor = Receptor.substring(1,Receptor.length() - 1);
+                                        Asunto = Asunto.substring(1, Asunto.length() - 1);
+                                        Mensaje = Mensaje.substring(1,Mensaje.length() -1);
                                         String nuevaLinea = "0|0|" + Emisor + "|" + Receptor + "|" + fecha + "|" + Asunto + "|" + Mensaje + "|null|1";
                                         if(linea == null){
                                             FileWriter flw = new FileWriter(co,false);
@@ -176,6 +180,32 @@ public class Listener extends Thread {
                                     BDD.getInstancia().setMensaje("El grupo " + GrupoReceptor + " ha recibido el mensaje." );
                                     Not = new Notificacion();
                                     Not.setVisible(true);
+                                    
+                                     File co = new File("C:\\MEIA\\Correo.txt");
+                                    try{
+
+                                        String fecha = LocalDateTime.now().toString();
+                                        FileReader frp = new FileReader(co);
+                                        BufferedReader brp = new BufferedReader(frp);
+
+                                        String linea = brp.readLine();
+                                        brp.close();
+                                        String nuevaLinea = "0|0|" + Emisor + "|" + Receptor + "|" + fecha + "|" + Asunto + "|" + Mensaje + "|null|1";
+                                        if(linea == null){
+                                            FileWriter flw = new FileWriter(co,false);
+                                            flw.write(nuevaLinea);
+                                            flw.close();
+                                        }else{
+                                            frp = new FileReader(co);
+                                            brp = new BufferedReader(frp);
+                                            List nuevosDatos = new ArrayList<>();
+                                            while((linea=brp.readLine())!= null){
+                                                nuevosDatos.add(linea);
+                                            }
+                                            Determinar(nuevaLinea, nuevosDatos);
+                                        }
+                                    }catch(Exception e){}
+                                    
                                  }
                                  //Para Eliminar la solicitud (NO ES NECESARIO, OPCIONAL)
                                  BDD.getInstancia().Delete(id);
@@ -204,11 +234,10 @@ public class Listener extends Thread {
             String der = nueva.substring(nueva.indexOf("|") + 1);
             String info = der.substring(der.indexOf("|") + 1);
             if (datos.size() == 1) {
-                
-                if (info.compareTo(Info) > 1) {
-                    datos.set(0, "2|0|" + Info);
-                }else{
+                if (info.compareTo(Info) >= 1) {
                     datos.set(0, "0|2|" + Info);
+                }else{
+                    datos.set(0, "2|0|" + Info);
                 }
                 datos.add(nueva);
             }else{
