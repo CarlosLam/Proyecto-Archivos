@@ -37,7 +37,7 @@ public class BandejaSalida extends javax.swing.JFrame {
             while((linea=brp.readLine())!= null){
                 String[] info = linea.split("\\|");
                 if (info[3].equals(usr)) {
-                    String nuevaLinea = info[2] + " - " + info[5] + " - " + info[6];
+                    String nuevaLinea = info[2] + " - " + info[4] + " - " +info[5] + " - " + info[6];
                     model.addElement(nuevaLinea);
                 }
             }
@@ -76,7 +76,7 @@ public class BandejaSalida extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(correos);
 
-        jLabel1.setText("Receptor - Asunto - Mensaje");
+        jLabel1.setText("Receptor - Fecha - Asunto - Mensaje");
 
         Busqueda.setText("Busqueda");
         Busqueda.addActionListener(new java.awt.event.ActionListener() {
@@ -129,6 +129,8 @@ public class BandejaSalida extends javax.swing.JFrame {
 
     private void BusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BusquedaActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        new BusquedaEnviado(usr).setVisible(true);
     }//GEN-LAST:event_BusquedaActionPerformed
 
     /**

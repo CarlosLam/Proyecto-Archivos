@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -40,7 +41,7 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
             String linea;
             while((linea=brp.readLine())!= null){
                 String[] info = linea.split("\\|");
-                if (info[3].equals(usr)) {
+                if (info[3].equals(usr) && info[8].equals("1")) {
                     //Emisor - Fecha - Asunto - Mensaje - Adjunto
                     String nuevaLinea = info[2] + " - " + info[4] + " - " + info[5] + " - " + info[6] + " - " + info[7];
                     model.addElement(nuevaLinea);
@@ -61,11 +62,12 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
 
         jFrame1 = new javax.swing.JFrame();
         jFrame2 = new javax.swing.JFrame();
-        jButton1 = new javax.swing.JButton();
+        Eliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         correos = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         Regresar = new javax.swing.JButton();
+        Busqueda = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -91,16 +93,21 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("jButton1");
+        Eliminar.setText("Eliminar");
+        Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarActionPerformed(evt);
+            }
+        });
 
         correos.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        correos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                correosMouseClicked(evt);
+        correos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                correosKeyPressed(evt);
             }
         });
         jScrollPane1.setViewportView(correos);
@@ -114,6 +121,13 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
             }
         });
 
+        Busqueda.setText("Busqueda");
+        Busqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BusquedaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,13 +135,14 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
-                    .addComponent(Regresar))
+                    .addComponent(Eliminar)
+                    .addComponent(Regresar)
+                    .addComponent(Busqueda))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,9 +150,11 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(76, 76, 76)
-                        .addComponent(jButton1)
+                        .addComponent(Eliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Regresar))
+                        .addComponent(Regresar)
+                        .addGap(18, 18, 18)
+                        .addComponent(Busqueda))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(jLabel1)
@@ -155,12 +172,136 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
         new Usuario(usr).setVisible(true);
     }//GEN-LAST:event_RegresarActionPerformed
 
-    private void correosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_correosMouseClicked
+    private void correosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_correosKeyPressed
         // TODO add your handling code here:
         String datos = correos.getSelectedValue();
+        if (datos != null) {
+            this.setVisible(false);
+            new AbrirCorreo(usr, datos).setVisible(true);   
+        }
+    }//GEN-LAST:event_correosKeyPressed
+
+    private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+        // TODO add your handling code here:
+        String dato = correos.getSelectedValue();
+        if (dato != null) {
+            //Emisor - Fecha - Asunto - Mensaje - Adjunto
+            String[] datosCo = dato.split("\\ - ");
+            File co = new File("C:\\MEIA\\Correo.txt");
+            try{
+                FileReader frp = new FileReader(co);
+                BufferedReader brp = new BufferedReader(frp);
+                
+                String linea;
+                int posicion = 0;
+                boolean hijoIzq = false;
+                boolean hijoDer = false;
+                int posicionIzq = 0;
+                int posicionDer = 0;
+                
+                ArrayList datos = new ArrayList<>();
+                while((linea=brp.readLine())!= null){
+                   
+                    String[] op = linea.split("\\|");
+                    if (op[4].equals(datosCo[1])) { //Cuando las fechas son iguales
+                       
+                        if (op[0].equals("0") || op[1].equals("0")) {
+                            if (!op[0].equals("0")) {
+                                hijoIzq = true;
+                                posicionIzq = Integer.valueOf(op[0]);
+                            }
+                            if (!op[1].equals("0")) {
+                                hijoDer = true;
+                                posicionDer = Integer.valueOf(op[1]);
+                            }
+                        }
+                        String nuevaLinea = linea.substring(0, linea.lastIndexOf("|")) + "0";
+                        datos.add(nuevaLinea);
+                        posicion = datos.size() + 1;
+                    }
+                    else{
+                        datos.add(linea);    
+                    }
+                }
+                brp.close();
+                
+                if (posicion == 1) {
+                    if (hijoDer == false && hijoIzq == false) {//Cuando no tiene hijos
+                        //Entonces solo se debe de cambiar el status y eliminar la referencia del padre.
+                        
+                        if (datos.size() == 1) {
+                            //Se elimina todo lo conocido por el hombre jeje xdxd
+                        }
+                        else{
+                            for (int i = 0; i < datos.size(); i++) {
+                                String[] Dato = datos.get(i).toString().split("\\|");
+                                if (Dato[0].equals(String.valueOf(posicion)) || Dato[1].equals(String.valueOf(posicion))) {
+                                    if (Dato[0].equals(String.valueOf(posicion))) {
+                                        //Se trata del hijo izquierdo
+                                        String nuevaLinea = "0|" + Dato[1] + "|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
+                                        String primeraLinea = datos.get(0).toString();
+                                        datos.set(0, nuevaLinea);
+                                        datos.set(i, primeraLinea);
+                                    }else{
+                                        //Se trata del hijo derecho
+                                        String nuevaLinea = Dato[0] +"|0|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
+                                        String primeraLinea = datos.get(0).toString();
+                                        datos.set(0, nuevaLinea);
+                                        datos.set(i, primeraLinea);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else{
+                    if (hijoDer == false && hijoIzq == false) {
+                        //Entonces solo se debe de cambiar el status y eliminar la referencia del padre.
+                        for (int i = 0; i < datos.size(); i++) {
+                            String[] Dato = datos.get(i).toString().split("\\|");
+                            if (Dato[0].equals(String.valueOf(posicion)) || Dato[1].equals(String.valueOf(posicion))) {
+                                if (Dato[0].equals(String.valueOf(posicion))) {
+                                    //Se trata del hijo izquierdo
+                                    String nuevaLinea = "0|" + Dato[1] + "|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
+                                    datos.set(i, nuevaLinea);
+                                }else{
+                                    //Se trata del hijo derecho
+                                    String nuevaLinea = Dato[0] +"|0|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
+                                    datos.set(i, nuevaLinea);
+                                }
+                            }
+                        }
+                    }
+                    else if (hijoDer == true && hijoIzq == true) {
+                        //Se hace todo un camote xdxd
+
+                    } else{
+                        //Se cuenta unicamente con un hijo. Solo se cambia la ref y se sigue con la life xdxd   
+                        for (int i = 0; i < datos.size(); i++) {
+                            String[] Dato = datos.get(i).toString().split("\\|");
+                            if (Dato[0].equals(String.valueOf(posicion)) || Dato[1].equals(String.valueOf(posicion))) {
+                                if (Dato[0].equals(String.valueOf(posicion))) {
+                                    //Hijo izquierdo
+                                    String nuevaLinea = posicionIzq +"|" + Dato[1] + "|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
+                                    datos.set(i, nuevaLinea);
+                                }else{
+                                    String nuevaLinea = Dato[0] +"|" + posicionDer + "|" + Dato[2] + "|" + Dato[3] + "|" + Dato[4] + "|" +Dato[5] + "|" +Dato[6] + "|" + Dato[7] + "|" + Dato[8];
+                                    datos.set(i, nuevaLinea);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }catch(Exception e){}
+        }
+    }//GEN-LAST:event_EliminarActionPerformed
+
+    private void BusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BusquedaActionPerformed
+        // TODO add your handling code here:
         this.setVisible(false);
-        new AbrirCorreo(usr, datos).setVisible(true);
-    }//GEN-LAST:event_correosMouseClicked
+        new BusquedaCorreo(usr).setVisible(true);
+    }//GEN-LAST:event_BusquedaActionPerformed
     
     /**
      * @param args the command line arguments
@@ -196,11 +337,20 @@ public class BandejaDeEntrada extends javax.swing.JFrame {
             }
         });
     }
+    
+    private static void masIzquierdo(ArrayList datos, String datoCorreo){
+        
+    }
+    
+    private static void masDerecho(ArrayList datos, String datoCorreo){
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Busqueda;
+    private javax.swing.JButton Eliminar;
     private javax.swing.JButton Regresar;
     private javax.swing.JList<String> correos;
-    private javax.swing.JButton jButton1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JLabel jLabel1;

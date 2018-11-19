@@ -95,7 +95,7 @@
     </Container>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Receptor - Asunto - Mensaje"/>
+        <Property name="text" type="java.lang.String" value="Receptor - Fecha - Asunto - Mensaje"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="Busqueda">

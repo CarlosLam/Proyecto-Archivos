@@ -14,15 +14,15 @@ import javax.swing.JOptionPane;
  *
  * @author Carlos Lam
  */
-public class BusquedaCorreo extends javax.swing.JFrame {
+public class BusquedaEnviado extends javax.swing.JFrame {
 
     /**
-     * Creates new form BusquedaCorreo
+     * Creates new form BusquedaEnviado
      */
-    static String username;
-    public BusquedaCorreo(String usr) {
+    static String usr;
+    public BusquedaEnviado(String usuario) {
         initComponents();
-        username = usr;
+        usr = usuario;
     }
 
     /**
@@ -36,31 +36,28 @@ public class BusquedaCorreo extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        Emisor = new javax.swing.JTextField();
+        Receptor = new javax.swing.JTextField();
         Fecha = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Buscar = new javax.swing.JButton();
+        Regresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Ingrese");
+        jLabel1.setText("Receptor");
 
-        jLabel2.setText("Emisor:");
+        jLabel2.setText("Fecha");
 
-        jLabel3.setText("Fecha:");
-
-        jButton1.setText("Buscar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Buscar.setText("Buscar");
+        Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BuscarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Regresar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        Regresar.setText("Regresar");
+        Regresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                RegresarActionPerformed(evt);
             }
         });
 
@@ -69,88 +66,84 @@ public class BusquedaCorreo extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(74, 74, 74)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(Regresar)
+                        .addGap(69, 69, 69)
+                        .addComponent(Buscar))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(Emisor, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(94, Short.MAX_VALUE))
+                            .addComponent(jLabel2))
+                        .addGap(42, 42, 42)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Receptor)
+                            .addComponent(Fecha, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(61, 61, 61)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(Receptor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(Emisor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
                     .addComponent(Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(27, 27, 27))
+                    .addComponent(Buscar)
+                    .addComponent(Regresar))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        new BandejaDeEntrada(username).setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+        new BandejaSalida(usr).setVisible(true);
+    }//GEN-LAST:event_RegresarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
         // TODO add your handling code here:
-        boolean encontrado = false;
-        String emisor = Emisor.getText();
+        String receptor = Receptor.getText();
         String fecha = Fecha.getText();
-        if (emisor.length() > 0 && fecha.length() > 0) {
+        boolean encontrado = false;
+        if (receptor.length() > 0 && fecha.length() > 0) {
             File co = new File("C:\\MEIA\\Correo.txt");
-        
             try{
                 FileReader frp = new FileReader(co);
                 BufferedReader brp = new BufferedReader(frp);
                 String linea;
                 while((linea=brp.readLine())!= null){
                     String[] datos = linea.split("\\|");
-                    if (datos[2].equals(emisor) && datos[3].equals(username) && datos[4].equals(fecha)) {
+                    if (datos[3].equals(receptor) && datos[3].equals(usr) && datos[4].equals(fecha)) {
                         encontrado = true;
                     }
                 }
             }catch(Exception e){}
-        }else if (Emisor.getText().length() > 0) {
+        }else if (receptor.length() > 0) {
+            
             File co = new File("C:\\MEIA\\Correo.txt");
-        
             try{
                 FileReader frp = new FileReader(co);
                 BufferedReader brp = new BufferedReader(frp);
                 String linea;
                 while((linea=brp.readLine())!= null){
                     String[] datos = linea.split("\\|");
-                    if (datos[2].equals(emisor) && datos[3].equals(username)) {
+                    if (datos[3].equals(receptor) && datos[3].equals(usr)) {
                         encontrado = true;
                     }
                 }
             }catch(Exception e){}
             
-        }else if (Fecha.getText().length() > 0){
-            File co = new File("C:\\MEIA\\Correo.txt");
+        }else if (fecha.length() > 0) {
+             File co = new File("C:\\MEIA\\Correo.txt");
         
             try{
                 FileReader frp = new FileReader(co);
@@ -158,19 +151,19 @@ public class BusquedaCorreo extends javax.swing.JFrame {
                 String linea;
                 while((linea=brp.readLine())!= null){
                     String[] datos = linea.split("\\|");
-                    if (datos[3].equals(username) && datos[4].equals(fecha)) {
+                    if (datos[3].equals(usr) && datos[4].equals(fecha)) {
                         encontrado = true;
                     }
                 }
             }catch(Exception e){}
         }
         
-        if (encontrado) {
+       if (encontrado) {
             JOptionPane.showMessageDialog(rootPane, "Correo existe");
         }else{
             JOptionPane.showMessageDialog(rootPane, "Correo no existe");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_BuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,31 +182,30 @@ public class BusquedaCorreo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BusquedaCorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BusquedaEnviado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BusquedaCorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BusquedaEnviado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BusquedaCorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BusquedaEnviado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BusquedaCorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BusquedaEnviado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BusquedaCorreo(username).setVisible(true);
+                new BusquedaEnviado(usr).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Emisor;
+    private javax.swing.JButton Buscar;
     private javax.swing.JTextField Fecha;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JTextField Receptor;
+    private javax.swing.JButton Regresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }
